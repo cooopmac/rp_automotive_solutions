@@ -1,7 +1,7 @@
 package springboot.backend.controllers;
 
-import springboot.backend.models.User;
-import springboot.backend.repositories.UserCollectionRepository;
+import springboot.backend.models.Users;
+import springboot.backend.repositories.UserRepository;
 
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,26 +18,28 @@ import org.springframework.http.HttpStatus;
 
 import java.util.List;
 
+
 @RestController
 @RequestMapping("/api/users")
 @CrossOrigin
 public class UserController {
 
-    private final UserCollectionRepository repository;
+    // private final UserCollectionRepository repository;
+    private final UserRepository repository;
 
-    public UserController(UserCollectionRepository repository) {
+    public UserController(UserRepository repository) {
         this.repository = repository;
     }
 
     // make a request and see all users
     @GetMapping("")
-    public List<User> getAllUsers() {
-        return repository.findAllUsers();
+    public List<Users> findAllUsers() {
+        return repository.findAll();
     }
 
     // make a request and see a specific user
     @GetMapping("/{id}")
-    public User getUserById(@PathVariable Integer id) {
+    public Users findUserById(@PathVariable Integer id) {
         return repository.findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
     }
@@ -45,17 +47,17 @@ public class UserController {
     // mapping to create a new user
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("")
-    public void createUser(@RequestBody User user) {
-        repository.createUser(user);
+    public void createUser(@RequestBody Users user) {
+        repository.save(user);
     }
 
     // mapping to update a user
     @PutMapping("/{id}")
-    public void updateUser(@PathVariable Integer id, @RequestBody User user) {
+    public void updateUser(@PathVariable Integer id, @RequestBody Users user) {
         if(!repository.existsById(id)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
         }
-        repository.updateUser(user);
+        repository.save(user);
     }
 
     // mapping to delete a user
@@ -64,6 +66,6 @@ public class UserController {
         if(!repository.existsById(id)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
         }
-        repository.deleteUser(id);
+        repository.deleteById(id);
     }
 }
