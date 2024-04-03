@@ -1,10 +1,15 @@
-import Navbar from "./components/navbar";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Login from "./components/login";
+import { Register } from "./components/register";
 
 function App() {
   return (
-    <div>
-      <Navbar />
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/login" Component={Login} />
+        <Route path="/register" Component={Register} />
+      </Routes>
+    </Router>
   );
 }
 
