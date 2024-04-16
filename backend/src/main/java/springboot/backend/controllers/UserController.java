@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -42,13 +44,6 @@ public class UserController {
     public Users findUserById(@PathVariable Integer id) {
         return repository.findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
-    }
-
-    // mapping to create a new user
-    @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("")
-    public void createUser(@RequestBody Users user) {
-        repository.save(user);
     }
 
     // mapping to update a user
