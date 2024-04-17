@@ -1,7 +1,7 @@
 version: "3.1"
 
 services:
-  db:
+  mysql:
     image: mysql:latest
     restart: always
     environment:
@@ -15,12 +15,12 @@ services:
       - ./data:/var/lib/mysql
 
   backend:
-    build:
-      context: backend
-      dockerfile: Dockerfile
-
+    build: ./backend
+    depends_on:
+      - mysql
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/rp_database
+      SPRING_DATASOURCE_USERNAME: admin
+      SPRING_DATASOURCE_PASSWORD: admin
     ports:
       - "8080:8080"
-    restart: on-failure
-    depends_on:
-      - db
