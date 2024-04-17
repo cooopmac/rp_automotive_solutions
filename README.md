@@ -9,4 +9,4 @@
 docker compose up
 ```
 
-This should build the images for mySQL database, Java backend, and React frontend (not added yet)
+This should build the images for mySQL database, Java backend, and React frontend
