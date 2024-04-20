@@ -10,7 +10,7 @@ import {
 import { Button } from "./ui/button";
 import { CircleUser } from "lucide-react";
 
-const Navbar = () => {
+export default function Navbar() {
   return (
     <div className="flex min-h-screen w-full flex-col">
       <header className="sticky top-0 flex h-16 items-center gap-4 border-b bg-background px-4 md:px-6">
@@ -77,6 +77,4 @@ const Navbar = () => {
       </header>
     </div>
   );
-};
-
-export default Navbar;
+}

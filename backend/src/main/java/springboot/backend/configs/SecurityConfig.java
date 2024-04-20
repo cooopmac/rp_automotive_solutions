@@ -44,7 +44,7 @@ public class SecurityConfig {
             )
             // Configure authorization
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/", "/register", "/api/login").permitAll() // Permit access to these endpoints
+                .requestMatchers("/", "/api/register", "/api/login").permitAll() // Permit access to these endpoints
                 .anyRequest().authenticated() // All other requests require authentication
             )
             .formLogin(Customizer.withDefaults()); // Keep the default form login configuration
