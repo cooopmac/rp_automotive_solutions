@@ -29,7 +29,7 @@ public class SecurityConfig {
         
         // Custom query to fetch user details using email
         userDetailsManager.setUsersByUsernameQuery("select email as username, password, true as enabled from users where email = ?");
-        userDetailsManager.setAuthoritiesByUsernameQuery("select email as username, account_type as authority from users where email = ?");
+        userDetailsManager.setAuthoritiesByUsernameQuery("select email as username, CONCAT('ROLE_', account_type) as authority from users where email = ?");
         
         return userDetailsManager;
     }
@@ -45,6 +45,7 @@ public class SecurityConfig {
             // Configure authorization
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/", "/api/register", "/api/login").permitAll() // Permit access to these endpoints
+                .requestMatchers("/api/users").hasAuthority("ROLE_admin")
                 .anyRequest().authenticated() // All other requests require authentication
             )
             .formLogin(Customizer.withDefaults()); // Keep the default form login configuration
