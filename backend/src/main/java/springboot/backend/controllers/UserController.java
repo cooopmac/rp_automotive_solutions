@@ -43,6 +43,12 @@ public class UserController {
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
     }
 
+    @GetMapping("/by-email/{email}")
+    public Users findUserByUsername(@PathVariable String email) {
+        return repository.findByEmail(email)
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+    }
+
     // mapping to update a user
     @PutMapping("/{id}")
     public void updateUser(@PathVariable Integer id, @RequestBody Users user) {

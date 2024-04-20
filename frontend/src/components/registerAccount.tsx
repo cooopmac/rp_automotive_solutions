@@ -10,22 +10,25 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useNavigate } from "react-router-dom";
 
 export default function RegisterAccount() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const navigate = useNavigate();
 
   const handleSubmit = async (
     event: FormEvent<HTMLFormElement>
   ): Promise<void> => {
     event.preventDefault();
     try {
-      console.log(email, password);
-      const response = await axios.post("http://localhost:8080/api/register", {
-        email,
+      await axios.post("http://localhost:8080/api/register", {
+        email, // Assuming 'email' is the correct field expected by the backend
         password,
       });
-      console.log("Account created:", response.data);
+
+      console.log("Account created successfully");
+      navigate("/login"); // Redirect to login on successful registration
       // Optionally redirect the user or handle the response further
     } catch (error: unknown) {
       // Correctly catch the error as an unknown type

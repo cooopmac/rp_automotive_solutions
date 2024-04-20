@@ -11,6 +11,7 @@ import springboot.backend.repositories.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @RestController
 public class AuthController {
@@ -20,6 +21,26 @@ public class AuthController {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @PostMapping("/api/login")
+    public ResponseEntity<?> login(@RequestBody Users loginRequest) {
+        if (loginRequest.email() == null || loginRequest.email().isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Email must not be empty");
+        }
+    
+        Optional<Users> userOptional = repository.findByEmail(loginRequest.email().toLowerCase());
+        if (userOptional.isPresent()) {
+            Users user = userOptional.get();
+            if (passwordEncoder.matches(loginRequest.password(), user.password())) {
+                return new ResponseEntity<>(HttpStatus.ACCEPTED);
+            }
+        }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password");
+    }
+    
+    
+    
+    
 
     @PostMapping("/api/register")
     public ResponseEntity<Users> register(@RequestBody Users user) {
